@@ -1,147 +1,70 @@
-<!DOCTYPE html>
-<html>
-<head>
-	<title>Admin Room Status</title>
-</head>
-<style>
-	body {
-	  margin: 0;
-	  background: #f2f2f2;
-	}
-	table {
-		font-size: 22px;
-	}
-	td {
-		text-align: center;
-	}
-	#td1
-	{
-		background-color: rgba(09,41,98,0.9);
-		color: white;
-		border: 10px;
-		margin-top: -10px;
-		padding: 10px;
-	}
-	.basic_box {
-		border: 1px solid #ccc;
-		border-radius: 15px;
-		margin: auto;
-		width: 600px;
-		padding: 50px;
-		box-shadow: 0 10px 20px rgba(0,0,0,0.19);
-	}
-	th {
-		font-weight: bold;
-		padding-left: 15px;
-	}
-	ul {
-	  	list-style-type: none;
-	  	margin: 0;
-	  	padding: 0;
-	  	width: 22%;
-	  	font-size: 24px;
-	  	background-color: rgba(09,41,98,0.9);
-	  	text-decoration: none;
-	  	position: fixed;
-	  	height: 100%;
-	  	overflow: auto;
-	}
-	li {
-		color: white;
-	}
-	li a {
-	  	display: block;
-	  	color: white;
-	  	padding: 8px 16px;
-	  	text-decoration: none;
-	}
+<?php
+session_start();
+if (!isset($_SESSION["adminid"])) {
+    header("Location: admin_login.php");
+    exit();
+}
+include 'admin_header.php';
+include 'db.php';
+?>
 
-	li a.active {
-	  	background-color: #e6b800;
-	  	color: white;
-	}
+<div class="form-container" style="max-width: 900px; width: 95%;">
+    <div class="glass-card mb-4">
+        <h2 class="title-main text-center">Booking Requests</h2>
+        <p class="subtitle text-center">Manage pending user bookings.</p>
+        
+        <table style="width: 100%; border-collapse: collapse; margin-top: 2rem;">
+            <thead>
+                <tr style="border-bottom: 2px solid var(--primary-color);">
+                    <th style="padding: 1rem; text-align: left;">Booking ID</th>
+                    <th style="padding: 1rem; text-align: left;">Name</th>
+                    <th style="padding: 1rem; text-align: left;">Room Type</th>
+                    <th style="padding: 1rem; text-align: center;">Check-in</th>
+                    <th style="padding: 1rem; text-align: center;">Check-out</th>
+                    <th style="padding: 1rem; text-align: right;">Price</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php
+                $sql = "SELECT book_id, name, room_type, checkin, checkout, price FROM user_room_book WHERE status = 'Waiting'";
+                $result = $conn->query($sql);
 
-	li a:hover:not(.active) {
-	  	background-color: #e6b800;
-	  	color: white;
-	  	text-decoration: underline;
-	}
-</style>
-<script>
-    function submitForm(action)
-    {
-        document.getElementById('columnarForm').action = action;
-        document.getElementById('columnarForm').submit();
-    }
-</script>
-<body>
-	<table style="width: 100%;">
-		<tr>
-			<td id="td1" style="padding: 10px; font-size: 48px;">THE <p style="color: #e6b800; display: inline;">DELUXE</p> HOTEL</td>
-		</tr>
-	</table>
-	<ul>
-		<li><a href="admin_view.php" class="active">Rooms Info</a></li>
-		<li><a href="add_room_admin.php">Add Room</a></li>
-		<li><a href="remove_room_admin.php">Remove Rooms</a></li>
-		<li><a href="admin_room_status.php">Booking Requests</a></li>
-		<li><a href="confirmed_bookings.php">Confirmed Bookings</a></li>
-		<li><a href="booking_history.php">Booking History</a></li>
-		<li><a href="index.php">Logout</a></li>
-	</ul>
-	<div style="margin-left:25%;padding:1px 16px;height:1000px;">
-		<p style="margin-left: 10%; margin-top: 5%; font-size: 28px;"></p>
-			<table class="basic_box">
-				<tr>
-					<td colspan="6"><p style="font-size: 28px; text-align: center; text-decoration: underline;"><b>Admin Room Status</b></p>
-				</td>
-				<tr>
-					<th>Booking ID</th>
-					<th>Name</th>
-					<th>Room Type</th>
-					<th>Check-in Date</th>
-					<th>Check-out Date</th>
-					<th>Price</th>
-				</tr>
-				<tr>
-				<?php
-					$conn = new mysqli("localhost","root","", "iwp");
-					if($conn->connect_error)
-					{
-						die("Connection failed: ".$conn->connect_error);
-					}
-					$sql1 = "SELECT * from user_room_book";
-					if ($result=mysqli_query($conn,$sql1))
-				  	{
-				  		while ($row=mysqli_fetch_row($result))
-				    	{
-				    		if($row[13]=='Waiting'){
-				    		?>
-				    		<td><?php echo $row[15]; ?></td>
-				   			<td><?php echo $row[1]; ?></td>
-				   			<td><?php echo $row[3]; ?></td>
-				   			<td><?php echo $row[4]; ?></td>
-				    		<td><?php echo $row[5]; ?></td>
-				    		<td><?php echo $row[14]; }?></td>
-				</tr><?php
-				    	}
-				    	mysqli_free_result($result); 
-				    }?>
-			</table><br><br>
-			<table class="basic_box">
-				<tr>
-					<td colspan="1">Enter Booking ID:</td>
-					<td colspan="2">
-						<form action="confirm_room.php" method="post">
-							<input type="number" name="book_id">
-					</td>
-				</tr>
-				<tr>
-					<td></td>
-					<td style="text-align: center;"><button type="submit">Confirm</button>
-  					<button type="submit" formaction="cancel_room.php">Cancel Booking</button></td></form>	
-				</tr>
-			</table>
-		</div>
-	</body>
-</html>
+                if ($result->num_rows > 0) {
+                    while ($row = $result->fetch_assoc()) {
+                        echo "<tr style='border-bottom: 1px solid #cbd5e1;'>";
+                        echo "<td style='padding: 1rem; text-align: left; font-weight: bold;'>" . htmlspecialchars($row['book_id']) . "</td>";
+                        echo "<td style='padding: 1rem; text-align: left;'>" . htmlspecialchars($row['name']) . "</td>";
+                        echo "<td style='padding: 1rem; text-align: left;'>" . htmlspecialchars($row['room_type']) . "</td>";
+                        echo "<td style='padding: 1rem; text-align: center;'>" . htmlspecialchars($row['checkin']) . "</td>";
+                        echo "<td style='padding: 1rem; text-align: center;'>" . htmlspecialchars($row['checkout']) . "</td>";
+                        echo "<td style='padding: 1rem; text-align: right;'>$" . htmlspecialchars($row['price']) . "</td>";
+                        echo "</tr>";
+                    }
+                } else {
+                    echo "<tr><td colspan='6' style='text-align: center; padding: 2rem;'>No pending booking requests.</td></tr>";
+                }
+                ?>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="glass-card">
+        <h3 class="text-center mb-4" style="color: var(--secondary-color);">Action on Booking</h3>
+        <form method="post" class="form-row" style="align-items: flex-end;">
+            <div class="form-group" style="flex: 2; margin-bottom: 0;">
+                <label for="book_id">Enter Booking ID:</label>
+                <input type="number" name="book_id" id="book_id" class="form-control" placeholder="Booking ID" required>
+            </div>
+            <div style="flex: 2; display: flex; gap: 1rem;">
+                <button type="submit" formaction="confirm_room.php" class="btn btn-primary" style="flex: 1;">Confirm</button>
+                <button type="submit" formaction="cancel_room.php" class="btn btn-secondary" style="flex: 1; border-color: red; color: red;">Cancel</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+</div> <!-- Close dashboard-content -->
+<?php 
+$conn->close();
+include 'footer.php'; 
+?>

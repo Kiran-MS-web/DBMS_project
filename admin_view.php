@@ -1,119 +1,48 @@
-<!DOCTYPE html>
-<html>
-<head>
-	<title>Admin</title>
-</head>
-<style>
-	body {
-	  margin: 0;
-	  background: #f2f2f2;
-	}
-	table {
-		font-size: 22px;
-	}
-	td {
-		text-align: center;
-	}
-	#td1
-	{
-		background-color: rgba(09,41,98,0.9);
-		color: white;
-		border: 10px;
-		margin-top: -10px;
-		padding: 10px;
-	}
-	.basic_box {
-		border: 1px solid #ccc;
-		border-radius: 15px;
-		margin: auto;
-		width: 600px;
-		padding: 50px;
-		box-shadow: 0 10px 20px rgba(0,0,0,0.19);
-	}
-	th {
-		font-weight: bold;
-		padding-left: 15px;
-	}
-	ul {
-	  	list-style-type: none;
-	  	margin: 0;
-	  	padding: 0;
-	  	width: 22%;
-	  	font-size: 24px;
-	  	background-color: rgba(09,41,98,0.9);
-	  	text-decoration: none;
-	  	position: fixed;
-	  	height: 100%;
-	  	overflow: auto;
-	}
-	li {
-		color: white;
-	}
-	li a {
-	  	display: block;
-	  	color: white;
-	  	padding: 8px 16px;
-	  	text-decoration: none;
-	}
+<?php
+session_start();
+if (!isset($_SESSION["adminid"])) {
+    header("Location: admin_login.php");
+    exit();
+}
+include 'admin_header.php';
+include 'db.php';
+?>
 
-	li a.active {
-	  	background-color: #e6b800;
-	  	color: white;
-	}
+<div class="form-container" style="max-width: 800px;">
+    <div class="glass-card">
+        <h2 class="title-main text-center">Rooms Information</h2>
+        <p class="subtitle text-center">Current availability and pricing.</p>
+        
+        <table style="width: 100%; border-collapse: collapse; margin-top: 2rem;">
+            <thead>
+                <tr style="border-bottom: 2px solid var(--primary-color);">
+                    <th style="padding: 1rem; text-align: left;">Room Type</th>
+                    <th style="padding: 1rem; text-align: center;">Available Rooms</th>
+                    <th style="padding: 1rem; text-align: center;">Occupied Rooms</th>
+                    <th style="padding: 1rem; text-align: right;">Price</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php
+                $sql = "SELECT room_type, available_rooms, occupied_rooms, price FROM rooms_count";
+                $result = $conn->query($sql);
+                if ($result->num_rows > 0) {
+                    while ($row = $result->fetch_assoc()) {
+                        echo "<tr style='border-bottom: 1px solid #cbd5e1;'>";
+                        echo "<td style='padding: 1rem; text-align: left;'>" . htmlspecialchars($row['room_type']) . "</td>";
+                        echo "<td style='padding: 1rem; text-align: center;'>" . htmlspecialchars($row['available_rooms']) . "</td>";
+                        echo "<td style='padding: 1rem; text-align: center;'>" . htmlspecialchars($row['occupied_rooms']) . "</td>";
+                        echo "<td style='padding: 1rem; text-align: right;'>$" . htmlspecialchars($row['price']) . "</td>";
+                        echo "</tr>";
+                    }
+                } else {
+                    echo "<tr><td colspan='4' style='text-align: center; padding: 2rem;'>No room data available.</td></tr>";
+                }
+                ?>
+            </tbody>
+        </table>
+    </div>
+</div>
 
-	li a:hover:not(.active) {
-	  	background-color: #e6b800;
-	  	color: white;
-	  	text-decoration: underline;
-	}
-</style>
-<body>
-	<table style="width: 100%;">
-		<tr>
-			<td id="td1" style="padding: 10px; font-size: 48px;">THE <p style="color: #e6b800; display: inline;">DELUXE</p> HOTEL</td>
-		</tr>
-	</table>
-	<ul>
-		<li><a href="admin_view.php" class="active">Rooms Info</a></li>
-		<li><a href="add_room_admin.php">Add Room</a></li>
-		<li><a href="remove_room_admin.php">Remove Rooms</a></li>
-		<li><a href="admin_room_status.php">Booking Requests</a></li>
-		<li><a href="confirmed_bookings.php">Confirmed Bookings</a></li>
-		<li><a href="booking_history.php">Booking History</a></li>
-		<li><a href="index.php">Logout</a></li>
-	</ul>
-	<div style="margin-left:25%;padding:1px 16px;height:1000px;">
-		<p style="margin-left: 10%; margin-top: 5%; font-size: 28px;"></p>
-		<?php
-			$conn = new mysqli("localhost","root","", "iwp");
-			if($conn->connect_error)
-			{
-				die("Connection failed: ".$conn->connect_error);
-			}
-			$sql = "SELECT * from rooms_count";
-			$result=mysqli_query($conn,$sql); ?>
-		  	<table class="basic_box">
-				<tr>
-					<th colspan="4"><p style="font-size: 28px; text-align: center; text-decoration: underline;">Rooms Info</p></th>
-				</tr>
-				<tr>
-					<th>Room Type</th>
-					<th>Available Rooms</th>
-					<th>Occupied Rooms</th>
-					<th>Price</th>
-				</tr>
-			<?php 
-			while ($row=mysqli_fetch_row($result))
-    		{	?>	
-				<tr>
-					<td><?php echo $row[0]; ?></td>
-					<td><?php echo $row[1]; ?></td>
-					<td><?php echo $row[2]; ?></td>
-					<td><?php echo $row[3]; 
-			} ?></td>
-				</tr>
-				<tr><td></td></tr><tr><td></td></tr>
-			</table>			
-	</div>
-</body>
-</html>
+</div> <!-- Close dashboard-content -->
+<?php include 'footer.php'; ?>
