@@ -9,6 +9,8 @@
 <body>
     <nav class="navbar">
         <div class="nav-brand">THE <span>DELUXE</span> HOTEL</div>
+        <input type="checkbox" id="menu-toggle" class="menu-toggle">
+        <label for="menu-toggle" class="hamburger">&#9776;</label>
         <ul class="nav-links">
             <li><a href="index.php">HOME</a></li>
             <li><a href="admin_login.php">ADMIN LOGIN</a></li>

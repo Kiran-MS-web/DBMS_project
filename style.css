@@ -88,6 +88,18 @@ a:hover {
     color: var(--primary-color);
 }
 
+.menu-toggle {
+    display: none;
+}
+
+.hamburger {
+    display: none;
+    font-size: 1.8rem;
+    color: var(--text-light);
+    cursor: pointer;
+    user-select: none;
+}
+
 /* Glassmorphism Cards */
 .glass-card {
     background: var(--card-bg);
@@ -196,4 +208,65 @@ footer {
 
 footer p {
     color: var(--text-muted);
+}
+
+/* Make tables horizontally scrollable */
+table {
+    display: block;
+    overflow-x: auto;
+    white-space: nowrap;
+}
+
+/* Mobile Responsiveness */
+@media screen and (max-width: 768px) {
+    /* Navbar styling for mobile */
+    .hamburger {
+        display: block;
+    }
+    
+    .nav-links {
+        display: none;
+        flex-direction: column;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        width: 100%;
+        background: rgba(15, 23, 42, 0.95);
+        backdrop-filter: blur(10px);
+        padding: 1rem 0;
+        gap: 0;
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    }
+    
+    .nav-links li {
+        text-align: center;
+        width: 100%;
+    }
+    
+    .nav-links li a {
+        display: block;
+        padding: 1rem;
+        border-radius: 0;
+    }
+    
+    .menu-toggle:checked ~ .nav-links {
+        display: flex;
+    }
+    
+    /* Layout styling for mobile */
+    .form-row {
+        flex-direction: column;
+    }
+    
+    .title-main {
+        font-size: 1.8rem;
+    }
+    
+    .glass-card {
+        padding: 1.5rem;
+    }
+    
+    .form-container {
+        margin: 2rem auto;
+    }
 }

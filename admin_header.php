@@ -8,9 +8,11 @@
 </head>
 <body>
     <nav class="navbar">
-        <div class="nav-brand">THE <span>DELUXE</span> HOTEL <sup>ADMIN</sup></div>
+        <div class="nav-brand">THE <span>DELUXE</span> HOTEL</div>
+        <input type="checkbox" id="menu-toggle" class="menu-toggle">
+        <label for="menu-toggle" class="hamburger">&#9776;</label>
         <ul class="nav-links">
-            <li><a href="admin_view.php">Rooms Info</a></li>
+            <li><a href="admin_view.php">Dashboard</a></li>
             <li><a href="add_room_admin.php">Add Room</a></li>
             <li><a href="remove_room_admin.php">Remove Rooms</a></li>
             <li><a href="admin_room_status.php">Booking Requests</a></li>
