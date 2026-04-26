@@ -1,4 +1,4 @@
-<?php $base_url = "/Hotel-Management-System-master"; ?>
+<?php $base_url = ""; ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
