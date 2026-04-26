@@ -1,186 +1,102 @@
-<!DOCTYPE html>
-<html>
-<head>
-	<title>User Room Book</title>
-</head>
-<style>
-	body {
-	  margin: 0;
-	  background: #f2f2f2;
-	}
-	table {
-		font-size: 22px;
-	}
-	#td1
-	{
-		background-color: rgba(09,41,98,0.9);
-		color: white;
-		border: 10px;
-		margin-top: -10px;
-		padding: 10px;
-		text-align: center;
-	}
-	td {
-		text-align: left;
-	}
-	th {
-		font-weight: bold;
-		text-align: left;
-	}
-	ul {
-	  	list-style-type: none;
-	  	margin: 0;
-	  	padding: 0;
-	  	width: 22%;
-	  	font-size: 24px;
-	  	background-color: rgba(09,41,98,0.9);
-	  	text-decoration: none;
-	  	position: fixed;
-	  	height: 100%;
-	  	overflow: auto;
-	}
-	li {
-		color: white;
-	}
-	li a {
-	  	display: block;
-	  	color: white;
-	  	padding: 8px 16px;
-	  	text-decoration: none;
-	}
-	li a:active {
-	  	background-color: #e6b800;
-	  	color: white;
-	  	text-decoration: underline;		
-	}
-	li a:hover {
-	  	background-color: #e6b800;
-	  	color: white;
-	  	text-decoration: underline;
-	}
-	.basic_box {
-		border: 1px solid #ccc;
-		border-radius: 15px;
-		margin: auto;
-		width: 600px;
-		padding: 50px;
-		box-shadow: 0 10px 20px rgba(0,0,0,0.19);
-	}
-</style>
-<body>
-	<?php
-		$conn = new mysqli("localhost","root","", "iwp");
-		if($conn->connect_error)
-		{
-			die("Connection failed: ".$conn->connect_error);
-		}
-		$sql = "SELECT * from temp_session";
-		$result=mysqli_query($conn, $sql);
-		$row=mysqli_fetch_row($result); ?>
-	<table style="width: 100%;">
-		<tr>
-			<td id="td1" style="padding: 10px; font-size: 48px;">THE <p style="color: #e6b800; display: inline;">DELUXE</p> HOTEL</td>
-			<td id="td1" style="font-size: 25px; text-align: right;">Hello, <?php echo $row[2]; ?></td>
-		</tr>
-	</table>
-	<ul>
-		<li><a href="user_view.php">My Info</a></li>
-		<li><a href="bookroom.php">Book A Room</a></li>
-		<li><a href="user_room_status.php">Show Booking Status</a></li>
-		<li><a href="user_payment.php">Payment</a></li>
-		<li><a href="user_booking_history.php">Booking History</a></li>
-		<li><a href="index.php">Logout</a></li>
-	</ul>
-	<div style="margin-left:25%;padding:1px 16px;height:1000px;">
-		<p style="margin-left: 10%; margin-top: 5%; font-size: 28px;"></p>
-			<table class="basic_box">
-				<tr>
-					<th colspan="3"><p style="font-size: 28px; text-align: center; text-decoration: underline;">Room Details</p></th>
-				</tr>
-				<tr>
-					<th>Room Type</th>
-					<th>Number of beds</th>
-					<th>Price</th>
-				</tr>
-				<tr>
-					<td>Single Bedded</td>
-					<td>1</td>
-					<td>1000</td>
-				</tr>
-				<tr>
-					<td>Double Bedded</td>
-					<td>2</td>
-					<td>1800</td>
-				</tr>
-				<tr>
-					<td>Four Bedded</td>
-					<td>4</td>
-					<td>3000</td>
-				</tr>
-			</table><br><br>
-			<form class="basic_box" action="bookroom1.php" method="post">
-				<table>
-					<br><br>
-					<tr>
-						<td style="text-align: left;">Select room type:</td>
-						<td style="text-align: left;">
-							<select name="rooms" required>
-								<option value="">Select</option>
-								<option value="Single bed">Single bedded</option>
-								<option value="Double bed">Double bedded</option>
-								<option value="Four bed">Four bedded</option>
-							</select>
-						</td>
-					</tr>
-					<tr>
-						<td style="text-align: left;">Enter check-in date:</td>
-						<td style="text-align: left;">
-							<input type="date" name="checkin">
-						</td>
-					</tr>
-					<tr>
-						<td style="text-align: left;">Enter check-out date:</td>
-						<td style="text-align: left;">
-							<input type="date" name="checkout">
-						</td>
-					</tr>
-				</table>
-				<table>
-					<br>
-					<tr>
-						<th>Features</th>
-						<th>Service Cost per day</th>
-					</tr>
-					<tr>
-						<td><input type="checkbox" name="ac" value="on">AC</td>
-						<td style="text-align: center;">300</td>
-					</tr>
-					<tr>
-						<td><input type="checkbox" name="breakfast" value="on">Breakfast</td>
-						<td style="text-align: center;">150</td>
-					</tr>
-					<tr>
-						<td><input type="checkbox" name="lunch" value="on">Lunch</td>
-						<td style="text-align: center;">300</td>
-					</tr>
-					<tr>
-						<td><input type="checkbox" name="snacks" value="on">Evening Snacks</td>
-						<td style="text-align: center;">120</td>
-					</tr>
-					<tr>
-						<td><input type="checkbox" name="dinner" value="on">Dinner</td>
-						<td style="text-align: center;">250</td>
-					</tr>
-					<tr>
-						<td><input type="checkbox" name="swimming" value="on">Swimming Pool Access</td>
-						<td style="text-align: center;">300</td>
-					</tr>
-					<tr><br></tr>
-					<tr>
-						<td colspan="2" style="text-align: center;"><input type="submit" value="Submit"></td>
-					</tr>
-				</table>
-			</form>
-	</div>
-</body>
-</html>
+<?php
+session_start();
+if (!isset($_SESSION["user_phone"])) {
+    header("Location: user_login.php");
+    exit();
+}
+include 'user_header.php';
+include 'db.php';
+?>
+
+<div class="form-container" style="max-width: 800px;">
+    
+    <div class="glass-card mb-4">
+        <h2 class="title-main text-center">Room Details</h2>
+        <table style="width: 100%; border-collapse: collapse; margin-top: 1rem;">
+            <thead>
+                <tr style="border-bottom: 2px solid var(--primary-color);">
+                    <th style="padding: 1rem; text-align: left;">Room Type</th>
+                    <th style="padding: 1rem; text-align: center;">Number of Beds</th>
+                    <th style="padding: 1rem; text-align: right;">Price / Night</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr style="border-bottom: 1px solid #cbd5e1;">
+                    <td style="padding: 1rem; text-align: left;">Single Bedded</td>
+                    <td style="padding: 1rem; text-align: center;">1</td>
+                    <td style="padding: 1rem; text-align: right;">$1000</td>
+                </tr>
+                <tr style="border-bottom: 1px solid #cbd5e1;">
+                    <td style="padding: 1rem; text-align: left;">Double Bedded</td>
+                    <td style="padding: 1rem; text-align: center;">2</td>
+                    <td style="padding: 1rem; text-align: right;">$1800</td>
+                </tr>
+                <tr style="border-bottom: 1px solid #cbd5e1;">
+                    <td style="padding: 1rem; text-align: left;">Four Bedded</td>
+                    <td style="padding: 1rem; text-align: center;">4</td>
+                    <td style="padding: 1rem; text-align: right;">$3000</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="glass-card">
+        <h2 class="title-main text-center">Book a Room</h2>
+        <form action="bookroom1.php" method="post">
+            <div class="form-group">
+                <label for="rooms">Select Room Type:</label>
+                <select name="rooms" id="rooms" class="form-control" required>
+                    <option value="">-- Select --</option>
+                    <option value="Single bed">Single Bedded</option>
+                    <option value="Double bed">Double Bedded</option>
+                    <option value="Four bed">Four Bedded</option>
+                </select>
+            </div>
+            
+            <div class="form-row">
+                <div class="form-group" style="flex: 1;">
+                    <label for="checkin">Check-In Date:</label>
+                    <input type="date" name="checkin" id="checkin" class="form-control" required>
+                </div>
+                <div class="form-group" style="flex: 1;">
+                    <label for="checkout">Check-Out Date:</label>
+                    <input type="date" name="checkout" id="checkout" class="form-control" required>
+                </div>
+            </div>
+
+            <h3 class="mt-4 mb-4" style="color: var(--secondary-color);">Add-on Services (per day)</h3>
+            
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                <div style="display: flex; justify-content: space-between; padding: 0.5rem; border: 1px solid #cbd5e1; border-radius: 8px; background: white;">
+                    <label style="margin: 0; display: flex; align-items: center; gap: 0.5rem;"><input type="checkbox" name="ac" value="on"> AC</label>
+                    <span>$300</span>
+                </div>
+                <div style="display: flex; justify-content: space-between; padding: 0.5rem; border: 1px solid #cbd5e1; border-radius: 8px; background: white;">
+                    <label style="margin: 0; display: flex; align-items: center; gap: 0.5rem;"><input type="checkbox" name="breakfast" value="on"> Breakfast</label>
+                    <span>$150</span>
+                </div>
+                <div style="display: flex; justify-content: space-between; padding: 0.5rem; border: 1px solid #cbd5e1; border-radius: 8px; background: white;">
+                    <label style="margin: 0; display: flex; align-items: center; gap: 0.5rem;"><input type="checkbox" name="lunch" value="on"> Lunch</label>
+                    <span>$300</span>
+                </div>
+                <div style="display: flex; justify-content: space-between; padding: 0.5rem; border: 1px solid #cbd5e1; border-radius: 8px; background: white;">
+                    <label style="margin: 0; display: flex; align-items: center; gap: 0.5rem;"><input type="checkbox" name="snacks" value="on"> Evening Snacks</label>
+                    <span>$120</span>
+                </div>
+                <div style="display: flex; justify-content: space-between; padding: 0.5rem; border: 1px solid #cbd5e1; border-radius: 8px; background: white;">
+                    <label style="margin: 0; display: flex; align-items: center; gap: 0.5rem;"><input type="checkbox" name="dinner" value="on"> Dinner</label>
+                    <span>$250</span>
+                </div>
+                <div style="display: flex; justify-content: space-between; padding: 0.5rem; border: 1px solid #cbd5e1; border-radius: 8px; background: white;">
+                    <label style="margin: 0; display: flex; align-items: center; gap: 0.5rem;"><input type="checkbox" name="swimming" value="on"> Swimming Pool</label>
+                    <span>$300</span>
+                </div>
+            </div>
+
+            <button type="submit" class="btn btn-primary mt-4">Review Booking</button>
+        </form>
+    </div>
+</div>
+
+</div> <!-- Close dashboard-content -->
+<?php include 'footer.php'; ?>

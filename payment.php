@@ -1,35 +1,50 @@
-<html>
-<body>
-	<?php
-		$conn = new mysqli("localhost","root","", "iwp");
-		if($conn->connect_error)
-		{
-			die("Connection failed: ".$conn->connect_error);
-		}
-		$bid = $_POST["book_id"];
-		$sql = "SELECT * from confirmed_booking";
-		$result=mysqli_query($conn,$sql);
-		while ($row=mysqli_fetch_row($result))
-	   	{
-			if($bid==$row[14])
-			{	
-				$sql1 = "SELECT * FROM balance";
-				$result1 = mysqli_query($conn,$sql1);
-				$r = mysqli_fetch_row($result1);
-				$r[0] = $r[0] + $row[13];
-				$sql2 = "DELETE FROM balance";
-				mysqli_query($conn, $sql2);
-				$sql2 = "INSERT INTO balance VALUES ('$r[0]')";
-				mysqli_query($conn, $sql2);
-				$sql2 = "INSERT INTO booked_hist VALUES ('$row[0]','$row[1]','$row[2]','$row[3]','$row[4]','$row[5]','$row[6]','$row[7]','$row[8]','$row[9]','$row[10]','$row[11]','$row[12]','$row[13]','$row[14]')";
-				mysqli_query($conn, $sql2);
-				$sql2 = "DELETE FROM confirmed_booking WHERE book_id='$bid'";
-				mysqli_query($conn, $sql2);
-				$sql2 = "UPDATE rooms_count SET available_rooms = available_rooms+1, occupied_rooms = occupied_rooms-1 WHERE room_type='$row[3]'";
-				mysqli_query($conn, $sql2);
-				header("Location: payment1.php");
-			}
-		}
-	?>
-</body>
-</html>
+<?php
+session_start();
+if (!isset($_SESSION["user_phone"])) {
+    header("Location: user_login.php");
+    exit();
+}
+include 'db.php';
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $bid = $_POST["book_id"];
+    $phone = $_SESSION["user_phone"];
+
+    // Fetch the specific booking and ensure it belongs to the logged-in user
+    $stmt = $conn->prepare("SELECT * FROM confirmed_booking WHERE book_id = ? AND phone = ?");
+    $stmt->bind_param("is", $bid, $phone);
+    $stmt->execute();
+    $result = $stmt->get_result();
+
+    if ($result->num_rows > 0) {
+        $row = $result->fetch_assoc();
+        $price = $row['price'];
+        $room_type = $row['room_type'];
+
+        // Update balance
+        $conn->query("UPDATE balance SET balance = balance + $price");
+
+        // Move to booked_hist
+        $insert_hist = $conn->prepare("INSERT INTO booked_hist (phone, name, idproof, room_type, checkin, checkout, days, ac, breakfast, lunch, snacks, dinner, swimming, price, book_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+        $insert_hist->bind_param("isssssissssssii", $row['phone'], $row['name'], $row['idproof'], $row['room_type'], $row['checkin'], $row['checkout'], $row['days'], $row['ac'], $row['breakfast'], $row['lunch'], $row['snacks'], $row['dinner'], $row['swimming'], $row['price'], $row['book_id']);
+        $insert_hist->execute();
+
+        // Delete from confirmed_booking
+        $delete_conf = $conn->prepare("DELETE FROM confirmed_booking WHERE book_id = ?");
+        $delete_conf->bind_param("i", $bid);
+        $delete_conf->execute();
+
+        // Update room count
+        $update_rooms = $conn->prepare("UPDATE rooms_count SET available_rooms = available_rooms + 1, occupied_rooms = occupied_rooms - 1 WHERE room_type = ?");
+        $update_rooms->bind_param("s", $room_type);
+        $update_rooms->execute();
+
+        header("Location: payment1.php");
+        exit();
+    } else {
+        // Handle invalid booking ID or not belonging to user
+        header("Location: user_payment.php");
+        exit();
+    }
+}
+?>
