@@ -210,11 +210,11 @@ footer p {
     color: var(--text-muted);
 }
 
-/* Make tables horizontally scrollable */
-table {
-    display: block;
+/* Responsive table container */
+.table-responsive {
+    width: 100%;
     overflow-x: auto;
-    white-space: nowrap;
+    -webkit-overflow-scrolling: touch;
 }
 
 /* Mobile Responsiveness */

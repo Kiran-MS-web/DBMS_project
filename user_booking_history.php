@@ -13,6 +13,7 @@ include 'db.php';
         <h2 class="title-main text-center">Booking History</h2>
         <p class="subtitle text-center">Past stays and completed bookings.</p>
         
+        <div class="table-responsive">
         <table style="width: 100%; border-collapse: collapse; margin-top: 2rem;">
             <thead>
                 <tr style="border-bottom: 2px solid var(--primary-color);">
@@ -52,6 +53,7 @@ include 'db.php';
                 ?>
             </tbody>
         </table>
+        </div>
     </div>
 
     <div class="glass-card">
