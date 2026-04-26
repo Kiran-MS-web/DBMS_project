@@ -1,6 +1,6 @@
 <?php
 // db.php
-$servername = "azurehotel.wuaze.com";
+$servername = "sql112.infinityfree.com";
 $username = "if0_41757643";
 $password = "Sumanth035";
 $dbname = "if0_41757643_iwp";
