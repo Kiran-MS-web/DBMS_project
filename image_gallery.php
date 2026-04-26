@@ -1,4 +1,4 @@
-<?php include 'header.php'; ?>
+<?php include 'includes/header.php'; ?>
 
 <div class="form-container" style="max-width: 1200px; width: 95%;">
     <div class="glass-card mb-4">
@@ -55,4 +55,4 @@
     </div>
 </div>
 
-<?php include 'footer.php'; ?>
+<?php include 'includes/footer.php'; ?>

@@ -1,4 +1,4 @@
-<?php include 'header.php'; ?>
+<?php include 'includes/header.php'; ?>
 
 <style>
 /* Index specific styles */
@@ -141,20 +141,20 @@
 <div class="hero">
     <div class="slideshow-container">
         <div class="mySlides fade">
-            <img src="Images/1.jpg" alt="Hotel View 1">
+            <img src="assets/images/1.jpg" alt="Hotel View 1">
         </div>
         <div class="mySlides fade">
-            <img src="Images/2.jpg" alt="Hotel View 2">
+            <img src="assets/images/2.jpg" alt="Hotel View 2">
         </div>
         <div class="mySlides fade">
-            <img src="Images/3.jpg" alt="Hotel View 3">
+            <img src="assets/images/3.jpg" alt="Hotel View 3">
         </div>
     </div>
     
     <div class="hero-content">
         <h1>Experience Luxury</h1>
         <p>Find our friendly welcoming reception and enjoy a fantastic stay.</p>
-        <a href="user_login.php" class="cta-button">Reserve a Room</a>
+        <a href="user/login.php" class="cta-button">Reserve a Room</a>
     </div>
 </div>
 
@@ -162,21 +162,21 @@
     <h2 class="section-title">Our Premium Rooms</h2>
     <div class="room-grid">
         <div class="room-card">
-            <img src="images/1.jpg" alt="Deluxe Room" class="room-img">
+            <img src="assets/images/1.jpg" alt="Deluxe Room" class="room-img">
             <div class="room-info">
                 <h3 class="room-title">Deluxe Room</h3>
                 <p class="subtitle">Experience unparalleled comfort</p>
             </div>
         </div>
         <div class="room-card">
-            <img src="images/2.jpg" alt="Executive Room" class="room-img">
+            <img src="assets/images/2.jpg" alt="Executive Room" class="room-img">
             <div class="room-info">
                 <h3 class="room-title">Executive Room</h3>
                 <p class="subtitle">Perfect for business travelers</p>
             </div>
         </div>
         <div class="room-card">
-            <img src="images/3.jpg" alt="Standard Room" class="room-img">
+            <img src="assets/images/3.jpg" alt="Standard Room" class="room-img">
             <div class="room-info">
                 <h3 class="room-title">Standard Room</h3>
                 <p class="subtitle">Cozy and affordable</p>
@@ -202,4 +202,4 @@ function showSlides() {
 }
 </script>
 
-<?php include 'footer.php'; ?>
+<?php include 'includes/footer.php'; ?>
